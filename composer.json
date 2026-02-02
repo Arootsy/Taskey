@@ -1,0 +1,14 @@
+{
+  "name": "arootsy/Taskey",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "arootsy",
+      "email": "aronrootsaert07@gmail.com"
+    }
+  ],
+  "require": {
+  }
+}
