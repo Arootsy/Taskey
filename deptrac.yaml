@@ -1,6 +1,6 @@
 deptrac:
   paths:
-    - ./src
+    - ./Framework
     - ./app
   exclude_files:
     - '#.*test.*#'
