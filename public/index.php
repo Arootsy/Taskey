@@ -1,2 +1,3 @@
 <?php
-echo "Kanker";
+
+echo "Hello, World";
