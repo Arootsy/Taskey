@@ -10,6 +10,6 @@ class Kernel
 
     public function handleRequest(Request $request): Response
     {
-        return new Response(200, $request->queryParameters['name'], $request->postParameters['User-Agent']);
+        return new Response(200, "Hallooooooo" . $request->path);
     }
 }

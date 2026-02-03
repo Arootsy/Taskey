@@ -12,7 +12,7 @@ if (!is_string($path)) {
     $path = '/';
 }
 
-$request = new Request($_SERVER['REQUEST_METHOD'], $path, $_GET, ['User-Agent' => 'jo']);
+$request = new Request($_SERVER['REQUEST_METHOD'], $path, $_GET, $_POST);
 
 $response = $kernel->handleRequest($request);
 
