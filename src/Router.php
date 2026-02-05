@@ -23,11 +23,11 @@ class Router
             return new Response(404, 'NIET GEVONDEN WOLLAH', null);
         }
 
-        return new Response(200, $matchedRoute->return, null);
+        return call_user_func($matchedRoute->callback);
     }
 
-    public function addRoute(string $method, string $path, string $return): void
+    public function addRoute(string $method, string $path, callable $callback): void
     {
-        $this->routes[] = new Route($method, $path, $return);
+        $this->routes[] = new Route($method, $path, $callback);
     }
 }

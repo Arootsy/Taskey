@@ -2,6 +2,8 @@
 
 namespace Framework;
 
+use App\RouteProvider;
+
 class Kernel
 {
     private Router $router;
@@ -22,5 +24,10 @@ class Kernel
     public function handleRequest(Request $request): Response
     {
         return $this->router->dispatch($request);
+    }
+
+    public function registerRoutes(RouteProvider $routeProvider): void
+    {
+        $routeProvider->register($this->router);
     }
 }
