@@ -15,6 +15,11 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(ServiceContainer $serviceContainer): void
     {
         $homeController = new HomeController();
-        $serviceContainer->set(HomeController::class, $homeController);
+
+        try {
+            $serviceContainer->set(HomeController::class, $homeController);
+        } catch (Exception $exception) {
+            echo $exception;
+        }
     }
 }
