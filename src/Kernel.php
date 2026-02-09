@@ -2,8 +2,8 @@
 
 namespace Framework;
 
-use App\RouteProvider;
 use App\ServiceProvider;
+use Exception;
 
 class Kernel
 {
@@ -35,6 +35,9 @@ class Kernel
         $routeProvider->register($this->router, $this->container);
     }
 
+    /**
+     * @throws Exception
+     */
     public function registerServices(ServiceProvider $serviceProvider): void
     {
         $serviceProvider->register($this->container);
