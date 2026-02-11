@@ -16,13 +16,16 @@ class RouteProvider implements RouteProviderInterface
      */
     public function register(Router $router, ServiceContainer $container): void
     {
-        /** @var HomeController $homeController */
         $homeController = $container->get(HomeController::class);
 
-        $router->addRoute('GET', '/', [$homeController, "index"]);
-        $router->addRoute('GET', '/about', [$homeController, "about"]);
+        $router->addRoute('GET', '/', function () use ($homeController) {
+            return $homeController->index();
+        });
 
-        /** @var TaskController $taskController */
+        $router->addRoute('GET', '/', function () use ($homeController) {
+            return $homeController->about();
+        });
+
         $taskController = $container->get(TaskController::class);
         $router->addRoute('GET', '/task', [$taskController, "index"]);
     }

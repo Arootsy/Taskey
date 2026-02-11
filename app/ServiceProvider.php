@@ -11,6 +11,9 @@ use Framework\ServiceProviderInterface;
 
 class ServiceProvider implements ServiceProviderInterface
 {
+    /**
+     * @throws Exception
+     */
     public function register(ServiceContainer $serviceContainer): void
     {
         $homeController = new HomeController($serviceContainer->get(ResponseFactory::class));

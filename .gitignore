@@ -12,3 +12,5 @@ composer.lock
 # User level
 .env
 *.sqlite
+
+.DS_Store
