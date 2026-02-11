@@ -5,7 +5,7 @@ namespace App\Controllers;
 use Framework\Response;
 use Framework\ResponseFactory;
 
-class HomeController
+class TaskController
 {
     private ResponseFactory $responseFactory;
 
@@ -16,11 +16,6 @@ class HomeController
 
     public function index(): Response
     {
-        return $this->responseFactory->body('Dit is HomeController/index');
-    }
-
-    public function about(): Response
-    {
-        return $this->responseFactory->body('Dit is HomeController/about');
+        return $this->responseFactory->body('Dit is Task/Index');
     }
 }

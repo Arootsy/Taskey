@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Controllers\TaskController;
 use Framework\RouteProviderInterface;
 use Framework\Router;
 use App\Controllers\HomeController;
@@ -20,5 +21,9 @@ class RouteProvider implements RouteProviderInterface
 
         $router->addRoute('GET', '/', [$homeController, "index"]);
         $router->addRoute('GET', '/about', [$homeController, "about"]);
+
+        /** @var TaskController $taskController */
+        $taskController = $container->get(TaskController::class);
+        $router->addRoute('GET', '/task', [$taskController, "index"]);
     }
 }

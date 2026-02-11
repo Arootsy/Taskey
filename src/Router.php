@@ -7,8 +7,11 @@ class Router
     /** @var Route[] */
     public array $routes = [];
 
-    public function __construct()
+    private ResponseFactory $responseFactory;
+
+    public function __construct(ResponseFactory $responseFactory)
     {
+        $this->responseFactory = $responseFactory;
     }
 
     public function dispatch(Request $request): Response
@@ -20,7 +23,7 @@ class Router
         }
 
         if (!isset($matchedRoute)) {
-            return new Response(404, 'NIET GEVONDEN WOLLAH', null);
+            return $this->responseFactory->notFound();
         }
 
         return call_user_func($matchedRoute->callback);

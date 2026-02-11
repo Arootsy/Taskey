@@ -2,7 +2,6 @@
 
 namespace Framework;
 
-use App\ServiceProvider;
 use Exception;
 
 class Kernel
@@ -11,10 +10,16 @@ class Kernel
 
     private ServiceContainer $container;
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
-        $this->router = new Router();
         $this->container = new ServiceContainer();
+        $this->container->set(ResponseFactory::class, new ResponseFactory());
+
+        $responseFactory = $this->container->get(ResponseFactory::class);
+        $this->router = new Router($responseFactory);
     }
 
     /**
@@ -35,10 +40,7 @@ class Kernel
         $routeProvider->register($this->router, $this->container);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function registerServices(ServiceProvider $serviceProvider): void
+    public function registerServices(ServiceProviderInterface $serviceProvider): void
     {
         $serviceProvider->register($this->container);
     }
