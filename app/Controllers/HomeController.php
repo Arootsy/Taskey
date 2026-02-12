@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use Exception;
 use Framework\Response;
 use Framework\ResponseFactory;
 
@@ -14,13 +15,29 @@ class HomeController
         $this->responseFactory = $responseFactory;
     }
 
+    /**
+     * @throws Exception
+     */
     public function index(): Response
     {
-        return $this->responseFactory->body('Dit is HomeController/index');
+        return $this->responseFactory->view('home.html.twig', [
+            'navigation' => [
+                array('caption' => 'Joo', 'href' => 'about'),
+                array('caption' => 'Taskkkv', 'href' => 'task'),
+            ]
+        ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function about(): Response
     {
-        return $this->responseFactory->body('Dit is HomeController/about');
+        return $this->responseFactory->view('about.html.twig', [
+            'navigation' => [
+                array('caption' => 'Joo', 'href' => 'about'),
+                array('caption' => 'Taskkkv', 'href' => 'task'),
+            ]
+        ]);
     }
 }

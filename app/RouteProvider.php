@@ -22,7 +22,7 @@ class RouteProvider implements RouteProviderInterface
             return $homeController->index();
         });
 
-        $router->addRoute('GET', '/', function () use ($homeController) {
+        $router->addRoute('GET', '/about', function () use ($homeController) {
             return $homeController->about();
         });
 
