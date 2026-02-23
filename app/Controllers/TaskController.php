@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Exception;
+use Framework\Request;
 use Framework\Response;
 use Framework\ResponseFactory;
 
@@ -21,11 +22,19 @@ class TaskController
      */
     public function index(): Response
     {
-        return $this->responseFactory->view('tasks/index.html.twig', [
-            'navigation' => [
-                array('caption' => 'Joo', 'href' => 'about'),
-                array('caption' => 'Taskkkv', 'href' => 'task'),
-            ]
+        return $this->responseFactory->view('tasks/index.html.twig');
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws Exception
+     */
+    public function show(Request $request): Response
+    {
+        var_dump($request->get('id'));
+        return $this->responseFactory->view('tasks/show.html.twig', [
+            "id" => $request->get('id')
         ]);
     }
 }

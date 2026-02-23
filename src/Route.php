@@ -11,6 +11,9 @@ class Route
     /** @var callable */
     public $callback;
 
+    /** @var string[] */
+    public array $routeParameters;
+
     public function __construct(string $method, string $path, callable $callback)
     {
         $this->method = $method;
@@ -20,6 +23,20 @@ class Route
 
     public function matches(string $method, string $path): bool
     {
-        return $this->method === $method && $this->path === $path;
+        if ($this->method !== $method) {
+            return false;
+        }
+
+        if (preg_match(';^' . $this->path . '$;', $path, $matches) !== 1) {
+            return false;
+        }
+
+        foreach ($matches as $key => $value) {
+            if (is_string($key)) {
+                $this->routeParameters[$key] = $value;
+            }
+        }
+
+        return true;
     }
 }

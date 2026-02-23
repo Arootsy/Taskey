@@ -10,13 +10,20 @@ class Kernel
 
     private ServiceContainer $container;
 
+    private ConfigManager $configManager;
+
     /**
      * @throws Exception
      */
-    public function __construct()
+    public function __construct(mixed $config)
     {
+        $this->configManager = new ConfigManager($config);
+
         $this->container = new ServiceContainer();
-        $this->container->set(ResponseFactory::class, new ResponseFactory());
+        $this->container->set(ResponseFactory::class, new ResponseFactory(
+            $this->configManager->get('DEBUG'),
+            $this->configManager->get('VIEW_PATH')
+        ));
 
         $responseFactory = $this->container->get(ResponseFactory::class);
         $this->router = new Router($responseFactory);
@@ -30,9 +37,17 @@ class Kernel
         return $this->router;
     }
 
+
+    /**
+     * @throws Exception
+     */
     public function handleRequest(Request $request): Response
     {
-        return $this->router->dispatch($request);
+        try {
+            return $this->router->dispatch($request);
+        } catch (Exception $e) {
+            throw new Exception('Cannot handle request ', 0, $e);
+        }
     }
 
     public function registerRoutes(RouteProviderInterface $routeProvider): void
