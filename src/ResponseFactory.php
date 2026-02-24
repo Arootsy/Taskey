@@ -30,7 +30,7 @@ class ResponseFactory
             'navigation' => [
                 array('caption' => 'Home', 'href' => '/'),
                 array('caption' => 'About', 'href' => 'about'),
-                array('caption' => 'Tasks', 'href' => 'task'),
+                array('caption' => 'Tasks', 'href' => 'tasks'),
             ]
         ];
 
@@ -57,7 +57,7 @@ class ResponseFactory
                 'navigation' => [
                     array('caption' => 'Home', 'href' => '/'),
                     array('caption' => 'About', 'href' => 'about'),
-                    array('caption' => 'Tasks', 'href' => 'task'),
+                    array('caption' => 'Tasks', 'href' => 'tasks'),
                 ]
             ]));
         } catch (Exception $e) {

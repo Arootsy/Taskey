@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Controllers\TaskController;
+use Framework\Request;
 use Framework\RouteProviderInterface;
 use Framework\Router;
 use App\Controllers\HomeController;
@@ -27,6 +28,16 @@ class RouteProvider implements RouteProviderInterface
         });
 
         $taskController = $container->get(TaskController::class);
-        $router->addRoute('GET', '/task/(?P<id>[0-9]+)/?', [$taskController, "show"]);
+
+        $router->addRoute('GET', '/tasks', function () use ($taskController) {
+            return $taskController->index();
+        });
+
+        // COULD BE DONE THIS WAY BUT IS NOT UNDERSTANDABLE
+        // $router->addRoute('GET', '/tasks/(?P<id>[0-9]+)/?', [$taskController, "show"]);
+
+        $router->addRoute('GET', '/tasks/(?P<id>[0-9]+)/?', function (Request $request) use ($taskController) {
+            return $taskController->show($request);
+        });
     }
 }
