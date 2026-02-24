@@ -32,7 +32,6 @@ class TaskController
      */
     public function show(Request $request): Response
     {
-        var_dump($request->get('id'));
         return $this->responseFactory->view('tasks/show.html.twig', [
             "id" => $request->get('id')
         ]);
