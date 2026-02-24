@@ -27,16 +27,11 @@ class Route
             return false;
         }
 
-        if (preg_match(';^' . $this->path . '$;', $path, $matches) !== 1) {
-            return false;
+        if (preg_match(';^' . $this->path . '$;', $path, $matches)) {
+            $this->routeParameters = $matches;
+            return true;
         }
 
-        foreach ($matches as $key => $value) {
-            if (is_string($key)) {
-                $this->routeParameters[$key] = $value;
-            }
-        }
-
-        return true;
+        return false;
     }
 }
