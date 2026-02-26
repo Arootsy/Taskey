@@ -28,9 +28,8 @@ class ResponseFactory
     {
         $default = [
             'navigation' => [
-                array('caption' => 'Home', 'href' => '/'),
                 array('caption' => 'About', 'href' => 'about'),
-                array('caption' => 'Tasks', 'href' => 'tasks'),
+                array('caption' => 'Tasks', 'href' => '/tasks'),
             ]
         ];
 
@@ -55,9 +54,8 @@ class ResponseFactory
         try {
             return new Response(404, $this->twig->render('404.html.twig', [
                 'navigation' => [
-                    array('caption' => 'Home', 'href' => '/'),
                     array('caption' => 'About', 'href' => 'about'),
-                    array('caption' => 'Tasks', 'href' => 'tasks'),
+                    array('caption' => 'Tasks', 'href' => '/tasks'),
                 ]
             ]));
         } catch (Exception $e) {
