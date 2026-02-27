@@ -3,9 +3,17 @@
 namespace App\Repositories;
 
 use App\Model\Task;
+use Framework\Database;
 
 class TaskRepository implements TaskRepositoryInterface
 {
+    private Database $database;
+
+    public function __construct(Database $database)
+    {
+        $this->database = $database;
+    }
+
     /** @var array<int, mixed> */
     private array $tempTasks = array(
         array(
@@ -37,30 +45,39 @@ class TaskRepository implements TaskRepositoryInterface
             "completed_at" => null)
     );
 
+    private function fromDbRecord(mixed $row): Task {
+        return new Task(
+            $row['id'],
+            $row['title'],
+            $row['description'],
+            $row['priority'],
+            $row['status'],
+            $row['progress'],
+            $row['created_at'],
+            $row['completed_at']
+        );
+    }
+
     /** @return Task[]  */
     public function all(): array
     {
         $tasks = [];
+        $results = $this->database->query('SELECT * FROM tasks;');
 
-        foreach ($this->tempTasks as $tempTask) {
-            $tasks[$tempTask['id']] = new Task(
-                $tempTask['id'],
-                $tempTask['title'],
-                $tempTask['description'],
-                $tempTask['priority'],
-                $tempTask['status'],
-                $tempTask['progress'],
-                $tempTask['created_at'],
-                $tempTask['completed_at']
-            );
+        foreach ($results as $result) {
+            $tasks[] = $this->fromDbRecord($result);
         }
 
         return $tasks;
     }
 
-    /** @return ?Task[] */
-    public function find(int $id): ?array
+    /**
+     * @param int $id
+     * @return Task
+     */
+    public function find(int $id): Task
     {
-        return $this->tempTasks[$id] ?? null;
+        $result = $this->database->run('SELECT * FROM tasks WHERE :id;', ['id' => $id ])->fetch();
+        return $this->fromDbRecord($result);
     }
 }

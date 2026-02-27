@@ -25,6 +25,8 @@ class Kernel
             $this->configManager->get('VIEW_PATH')
         ));
 
+        $this->container->set(Database::class, new Database(__DIR__ . '/../' . $this->configManager->get('APP_DB')));
+
         $responseFactory = $this->container->get(ResponseFactory::class);
         $this->router = new Router($responseFactory);
     }
@@ -58,5 +60,13 @@ class Kernel
     public function registerServices(ServiceProviderInterface $serviceProvider): void
     {
         $serviceProvider->register($this->container);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getDatabase(): Database
+    {
+        return $this->container->get(Database::class);
     }
 }

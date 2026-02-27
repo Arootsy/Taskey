@@ -10,5 +10,5 @@ interface TaskRepositoryInterface
     public function all(): array;
 
     /** @return ?Task[] */
-    public function find(int $id): ?array;
+    public function find(int $id): ?Task;
 }

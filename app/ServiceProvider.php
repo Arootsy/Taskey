@@ -6,6 +6,7 @@ use App\Controllers\HomeController;
 use App\Controllers\TaskController;
 use App\Repositories\TaskRepository;
 use Exception;
+use Framework\Database;
 use Framework\ResponseFactory;
 use Framework\ServiceContainer;
 use Framework\ServiceProviderInterface;
@@ -17,7 +18,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(ServiceContainer $serviceContainer): void
     {
-        $taskRepository = new TaskRepository();
+        $taskRepository = new TaskRepository($serviceContainer->get(Database::class));
         $serviceContainer->set(TaskRepository::class, $taskRepository);
 
         $homeController = new HomeController($serviceContainer->get(ResponseFactory::class));

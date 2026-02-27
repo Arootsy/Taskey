@@ -9,7 +9,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $kernel = new Kernel([
     'DEBUG' => true,
-    'VIEW_PATH' => '../app/Views'
+    'VIEW_PATH' => '../app/Views',
+    'APP_DB' => 'database.sqlite'
 ]);
 
 $kernel->registerServices(new ServiceProvider());

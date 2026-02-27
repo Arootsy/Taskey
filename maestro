@@ -1,5 +1,9 @@
 <?php
 
+require __DIR__ . '/vendor/autoload.php';
+
+use Framework\Kernel;
+
 if ($argv[1] === 'serve') {
     exec('php -S 0.0.0.0:8888 -t public');
 }
@@ -14,4 +18,14 @@ if ($argv[1] === 'phpcs') {
 
 if ($argv[1] === 'deptrac') {
     passthru('php vendor/bin/deptrac --ansi');
+}
+
+if ($argv[1] === 'migrate') {
+    $kernel = new Kernel([
+        'DEBUG' => true,
+        'VIEW_PATH' => './app/Views',
+        'APP_DB' => 'database.sqlite'
+    ]);
+
+    $kernel->getDatabase()->migrate(__DIR__ . '/database');
 }
