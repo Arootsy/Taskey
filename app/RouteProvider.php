@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Controllers\ProjectController;
 use App\Controllers\TaskController;
 use Framework\Request;
 use Framework\RouteProviderInterface;
@@ -19,25 +20,42 @@ class RouteProvider implements RouteProviderInterface
     {
         $homeController = $container->get(HomeController::class);
 
-        $router->addRoute('GET', '/', function () use ($homeController) {
-            return $homeController->index();
+        $router->addRoute('GET', '/', function (Request $request) use ($homeController) {
+            return $homeController->index($request);
         });
 
-        $router->addRoute('GET', '/about', function () use ($homeController) {
-            return $homeController->about();
+        $router->addRoute('GET', '/about', function (Request $request) use ($homeController) {
+            return $homeController->about($request);
         });
 
+
+        // TASKS
         $taskController = $container->get(TaskController::class);
 
-        $router->addRoute('GET', '/tasks', function () use ($taskController) {
-            return $taskController->index();
+        $router->addRoute('GET', '/tasks', function (Request $request) use ($taskController) {
+            return $taskController->index($request);
         });
 
-        // COULD BE DONE THIS WAY BUT IS NOT UNDERSTANDABLE
-        // $router->addRoute('GET', '/tasks/(?P<id>[0-9]+)/?', [$taskController, "show"]);
-
-        $router->addRoute('GET', '/tasks/(?P<id>[0-9]+)/?', function (Request $request) use ($taskController) {
+        $router->addRoute('GET', '/tasks/(?<id>\d+)', function (Request $request) use ($taskController) {
             return $taskController->show($request);
+        });
+
+        $router->addRoute('POST', '/tasks/create', function (Request $request) use ($taskController){
+            return $taskController->store($request);
+        });
+
+        $router->addRoute('POST', '/tasks/update', function (Request $request) use ($taskController) {
+            return $taskController->update($request);
+        });
+
+        $router->addRoute('POST', '/tasks/(?<id>\d+)/delete', function (Request $request) use ($taskController) {
+            return $taskController->delete($request);
+        });
+
+        // PROJECTS
+        $projectController = $container->get(ProjectController::class);
+        $router->addRoute('GET', '/projects', function (Request $request) use($projectController) {
+            return $projectController->index($request);
         });
     }
 }

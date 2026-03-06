@@ -1,15 +1,58 @@
 {% extends "layouts/layout.html.twig" %}
 
-{% block title %}Index{% endblock %}
-
 {% block content %}
-    <main class="shadow-lg min-h-screen p-16">
-        <section class="flex space-x-4">
-            <div class="h-64 w-full shadow-lg rounded-lg p-4">
-                <h2>asdf</h2>
+    <main class="text-zinc-800">
+
+        <!-- Hero -->
+        <section class="max-w-6xl mx-auto px-6 py-44 text-center min-h-screen border-b border-zinc-300">
+            <h1 class="text-5xl md:text-6xl font-bold tracking-tight">
+                Manage your tasks with
+                <span class="relative inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-blue-500">
+                    <span class="relative text-white">Taskey</span>
+                </span>
+            </h1>
+
+            <p class="mt-6 text-lg text-zinc-600 max-w-2xl mx-auto">
+                Taskey helps you easily create tasks, organize them into projects,
+                and keep everything structured in one simple workspace.
+            </p>
+
+            <div class="mt-10 flex justify-center gap-4">
+                <a href="/tasks"
+                   class="px-6 py-3 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-700 transition shadow-lg hover:cursor-pointer">
+                    Get Started
+                </a>
+
+                <a href="https://github.com/Arootsy/Taskey" target="_blank" class="border border-zinc-200 px-6 py-3 shadow-lg rounded-md hover:cursor-pointer"> <i class="fa-brands fa-github"></i> Repository</a>
             </div>
-            <div class="h-64 w-full shadow-lg rounded-lg p-4">
-                <h2>asdf</h2>
+        </section>
+
+        <h2 class="text-center text-6xl mt-4 font-bold ">Discover our <span class="text-blue-500">Features</span></h2>
+        <section class="max-w-6xl mx-auto px-6 py-18">
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="p-6 border border-zinc-200 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-semibold">Create Tasks</h3>
+                    <p class="mt-3 text-zinc-600">
+                        Quickly create tasks and keep track of everything you need
+                        to do in one clear overview.
+                    </p>
+                </div>
+
+                <div class="p-6 border border-zinc-200 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-semibold">Projects</h3>
+                    <p class="mt-3 text-zinc-600">
+                        Organize tasks into projects so you can manage bigger
+                        workflows and keep everything structured.
+                    </p>
+                </div>
+
+                <div class="p-6 border border-zinc-200 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-semibold">Link Tasks</h3>
+                    <p class="mt-3 text-zinc-600">
+                        Easily link tasks to projects to keep context and track
+                        progress more efficiently.
+                    </p>
+                </div>
             </div>
         </section>
     </main>

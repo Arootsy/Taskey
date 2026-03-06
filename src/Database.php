@@ -68,4 +68,9 @@ class Database
             $this->connection->exec($sql);
         }
     }
+
+    public function getLastID(): int
+    {
+        return $this->connection->lastInsertId();
+    }
 }

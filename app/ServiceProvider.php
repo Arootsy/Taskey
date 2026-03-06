@@ -3,7 +3,9 @@
 namespace App;
 
 use App\Controllers\HomeController;
+use App\Controllers\ProjectController;
 use App\Controllers\TaskController;
+use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
 use Exception;
 use Framework\Database;
@@ -18,17 +20,20 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(ServiceContainer $serviceContainer): void
     {
+        // Repositories
         $taskRepository = new TaskRepository($serviceContainer->get(Database::class));
+        $projectRepository = new ProjectRepository($serviceContainer->get(Database::class));
+
         $serviceContainer->set(TaskRepository::class, $taskRepository);
+        $serviceContainer->set(ProjectRepository::class, $projectRepository);
 
+        // Controllers
         $homeController = new HomeController($serviceContainer->get(ResponseFactory::class));
-        $taskController = new TaskController($serviceContainer->get(ResponseFactory::class), $taskRepository);
+        $taskController = new TaskController($serviceContainer->get(ResponseFactory::class), $taskRepository, $projectRepository);
+        $projectRepository = new ProjectController($serviceContainer->get(ResponseFactory::class), $projectRepository, $taskRepository);
 
-        try {
-            $serviceContainer->set(HomeController::class, $homeController);
-            $serviceContainer->set(TaskController::class, $taskController);
-        } catch (Exception $exception) {
-            echo $exception;
-        }
+        $serviceContainer->set(HomeController::class, $homeController);
+        $serviceContainer->set(TaskController::class, $taskController);
+        $serviceContainer->set(ProjectController::class, $projectRepository);
     }
 }

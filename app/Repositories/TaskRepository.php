@@ -14,38 +14,8 @@ class TaskRepository implements TaskRepositoryInterface
         $this->database = $database;
     }
 
-    /** @var array<int, mixed> */
-    private array $tempTasks = array(
-        array(
-            "id" => 1,
-            "title" => "Form the Fellowship",
-            "description" => "Assemble representatives of the Free Peoples in Rivendell",
-            "priority" => 3,
-            "status" => 4,
-            "progress" => 100,
-            "created_at" => 1008710400,
-            "completed_at" => 1008720400),
-        array(
-            "id" => 2,
-            "title" => "Cross the Misty Mountains",
-            "description" => "Find a safe passage through or around the mountains",
-            "priority" => 2,
-            "status" => 1,
-            "progress" => 50,
-            "created_at" => 1008720400,
-            "completed_at" => null),
-        array(
-            "id" => 3,
-            "title" => "Enter Moria",
-            "description" => "Take the risky path through the Mines of Moria",
-            "priority" => 2,
-            "status" => 3,
-            "progress" => 0,
-            "created_at" => 1008740400,
-            "completed_at" => null)
-    );
-
-    private function fromDbRecord(mixed $row): Task {
+    private function fromDbRecord(mixed $row): Task
+    {
         return new Task(
             $row['id'],
             $row['title'],
@@ -54,11 +24,12 @@ class TaskRepository implements TaskRepositoryInterface
             $row['status'],
             $row['progress'],
             $row['created_at'],
-            $row['completed_at']
+            $row['completed_at'],
+            $row['project_id']
         );
     }
 
-    /** @return Task[]  */
+    /** @return Task[] */
     public function all(): array
     {
         $tasks = [];
@@ -77,7 +48,88 @@ class TaskRepository implements TaskRepositoryInterface
      */
     public function find(int $id): Task
     {
-        $result = $this->database->run('SELECT * FROM tasks WHERE :id;', ['id' => $id ])->fetch();
+        $result = $this->database
+            ->run('SELECT * FROM tasks WHERE id = :id', ['id' => $id])
+            ->fetch();
         return $this->fromDbRecord($result);
+    }
+
+    public function update(Task $task): bool
+    {
+        $stmt = $this->database->run('
+            UPDATE tasks SET 
+            title = :title,
+            description = :description,
+            priority = :priority,
+            status = :status,
+            progress = :progress,
+            created_at = :created_at,
+            completed_at = :completed_at,
+            project_id = :project_id
+            WHERE id = :id
+        ', [
+            "id" => $task->id,
+            "title" => $task->title,
+            "description" => $task->description,
+            "priority" => $task->priority,
+            "status" => $task->status,
+            "progress" => $task->progress,
+            "created_at" => $task->createdAt,
+            "completed_at" => $task->completedAt,
+            "project_id" => $task->project_id
+        ]);
+
+        return $stmt->rowCount() == 1;
+    }
+
+    public function insert(Task $task): ?Task
+    {
+        $stmt = $this->database->run('
+            INSERT INTO tasks 
+            (title, description, priority, status, progress, created_at, completed_at, project_id)
+            VALUES
+            (:title, :description, :priority, :status, :progress, :created_at, :completed_at, :project_id)
+        ', [
+            "title" => $task->title,
+            "description" => $task->description,
+            "priority" => $task->priority,
+            "status" => $task->status,
+            "progress" => $task->progress,
+            "created_at" => $task->createdAt,
+            "completed_at" => $task->completedAt,
+            "project_id" => $task->project_id == 0 ? null : $task->project_id
+        ]);
+
+        $task->id = $this->database->getLastID();
+
+        return $task;
+    }
+
+    public function delete(Task $task): bool
+    {
+        $stmt = $this->database->run("
+            DELETE FROM tasks
+            WHERE id = :id;
+        ", [
+            "id" => $task->id
+        ]);
+
+        return $stmt->rowCount() == 1;
+    }
+
+    /** @return Task[] */
+    public function getTaskFromProject(int $project_id): array
+    {
+        $tasks = [];
+        $results = $this->database->query(
+            'SELECT * FROM tasks 
+            WHERE project_id = :project_id
+        ');
+
+        foreach ($results as $result) {
+            $tasks[] = $this->fromDbRecord($result);
+        }
+
+        return $tasks;
     }
 }

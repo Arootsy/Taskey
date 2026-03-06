@@ -4,7 +4,7 @@ namespace App\Model;
 
 class Task
 {
-    public int $id;
+    public ?int $id;
 
     public string $title;
 
@@ -20,15 +20,18 @@ class Task
 
     public ?int $completedAt;
 
+    public ?int $project_id;
+
     public function __construct(
-        int $id,
+        ?int $id,
         string $title,
         string $description,
         int $priority,
         int $status,
         int $progress,
         int $createdAt,
-        ?int $completedAt
+        ?int $completedAt,
+        ?int $project_id
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -38,5 +41,6 @@ class Task
         $this->progress = $progress;
         $this->createdAt = $createdAt;
         $this->completedAt = $completedAt;
+        $this->project_id = $project_id;
     }
 }

@@ -1,22 +1,59 @@
+{% set priorities = {
+    0: 'low',
+    1: 'moderate',
+    2: 'high',
+    3: 'urgent'
+} %}
+
+{% set priorityColours = {
+    0: 'green',
+    1: 'blue',
+    2: 'orange',
+    3: 'red'
+} %}
+
+{% set statuses = {
+    0: 'new',
+    1: 'deferred',
+    2: 'in progress',
+    3: 'cancelled',
+    4: 'completed'
+} %}
+
+{% set statusColours = {
+    0: 'gray',
+    1: 'orange',
+    2: 'blue',
+    3: 'red',
+    4: 'green'
+} %}
+
+{% set navigation = [
+    { 'caption': 'About', 'href': '/about' },
+    { 'caption': 'Projects', 'href': '/projects' },
+    { 'caption': 'Tasks', 'href': '/tasks' }
+] %}
+
 <!DOCTYPE html>
 <html lang="nl">
     <head>
-        <title>JOOO</title>
+        {% block title %}{% endblock %}
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <script src="https://kit.fontawesome.com/3c4cec22a1.js" crossorigin="anonymous"></script>
     </head>
     <body>
     <nav class="relative bg-zinc-200 shadow-xl after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10">
         <div class="relative flex mx-24 h-16 items-center">
             <div class="flex flex-1 items-center justify-between">
                 <a class="flex shrink-0 items-center" href="/">
-                    <img src="/logo.png" alt="lul" class="h-8 w-auto" />
+                    <img src="/logo.png" alt="lul" class="h-12 w-auto" />
                     <h2 class="font-bold text-gray-900">Taskey</h2>
                 </a>
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
-                            {% for item in navigation %}
-                                <a href='{{ item.href }}' aria-current="page" class="rounded-md bg-neutral-400 hover:bg-blue-500 duration-300 px-3 py-2 text-sm font-medium text-white">{{ item.caption }}</a>
-                            {% endfor %}
+                        {% for item in navigation %}
+                            <a href='{{ item.href }}' aria-current="page" class="rounded-md hover:bg-blue-500 duration-300 px-3 py-2 text-sm font-medium text-white {{ request.path == item.href ? 'bg-blue-500' : 'bg-neutral-400' }}">{{ item.caption }}</a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
